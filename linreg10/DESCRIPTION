@@ -1,0 +1,16 @@
+Package: linreg10
+Type: Package
+Title: Linear Regression (Group 10 - OAG)
+Version: 0.1.0
+Authors@R: c(
+    person("Ozan", "Turkes", email = "ozt0012@auburn.edu", role = "aut"),
+    person("Geeta", "Kharel", role = "aut"),
+    person("Ayomide", "Afolabi", role = "aut")
+    )
+Maintainer: The package maintainer <yourself@somewhere.net>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
