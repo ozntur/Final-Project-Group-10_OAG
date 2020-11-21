@@ -3,6 +3,8 @@
 # y response
 # estimate beta
 
+##### ESTIMATE BETA #####
+
 exvals <- data.frame(y = c(runif(5000, 40,50)), 
                             x1 = c(runif(5000, min = 0, max = 20)),
                             x2 = (runif(20, 0,40)), 
@@ -38,13 +40,19 @@ lm_func = function(response, covariates, alpha = 0.05) {
   ci.beta <- c(beta.hat - qnorm(p = quant)*sqrt(var.beta), beta.hat + 
                  qnorm(p = quant)*sqrt(var.beta))
   
+  # fitted values y_hat
+  fitted_vals <- covariates%*%as.matrix(beta.hat) 
+  
   # Return all estimated values
   return(list(beta = beta.hat, sigma2 = sigma2.hat, 
-              variance_beta = var.beta, ci = ci.beta, residuals = resid))
+              variance_beta = var.beta, ci = ci.beta, 
+              residuals = resid, fitted_vals = fitted_vals))
 }
 
 
-########### To test! ###########
+
+
+##### To test! ###########
 
 # Linear regression with lm() function
 fit_lm = lm(exvals$y~exvals$x1 -1)
@@ -64,40 +72,74 @@ results
 plot()
 
 
-
 ##### PLOTS ##### 
 library(ggplot2)
 
-plot_lm <- function(response, covariates, pl_type) { # pl_type = c(res_fit, qq, hist)
+# pl_type = c(res_fit, qq, hist)
+plot_lm <- function(response, covariates, pl_type) { 
   
-  resids = lm_func(response, covariates, alpha = 0.05)$residuals
-    pl_dat <- data.frame(Residuals = resids, Fitted.Values = covariates)
+  pl_dat = data.frame(Residuals = lm_func(response, covariates, alpha = 0.05)$residuals,
+                      Fitted.Values = lm_func(response, covariates, alpha = 0.05)$fitted_vals
+                      )
   
   if(pl_type == "res_fit") {
-  
   # 1. Residuals vs fitted-values
   ggplot(pl_dat, aes(y = Residuals, x = Fitted.Values ))
   p_1 + geom_point() + geom_smooth(method = lm, se = FALSE)
   
   } else if(pl_type == "qq") {
-  
   # 2. qq-plot of residuals
   p_2 <- ggplot(pl_dat, aes(sample = Residuals))
   p_2 + stat_qq() + stat_qq_line()
+  
   } else if(pl_type == "hist") {
-  
-  
   #3. Histogram (or density) of residuals
   ggplot(pl_dat, aes(x = Residuals)) + geom_histogram(color="black", fill="white")
+    
   } else {
     print("error")
-    
   }
+}
+
+# TEST PLOTS
+plot_lm(response, covariates, "qq")
+
+##### Mean Square Prediction Error (MSPE) computed in matrix form #####
+
+mspe_lm <- function(response, covariates, ) {
+  # n: number of observations in the data (number of rows)
+  n = length(response)
+  
+  # lm_func(response, covariates, alpha = 0.05)$residuals <- y_hat
+  (1/n) * colSums( (lm_func(response, covariates, alpha = 0.05)$residuals )**2)
+}
+
+##### F-test ######
+
+ftest_lm <- function( ) {
+  
+  
+  
+  
+  
+  
+  
+  
+  
 }
 
 
 
-plot_lm(response, covariates, "hist")
+
+
+
+
+
+
+
+
+
+
 
 
 
