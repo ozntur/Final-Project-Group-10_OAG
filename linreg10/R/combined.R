@@ -106,26 +106,40 @@ plot_lm(response, covariates, "qq")
 
 ##### Mean Square Prediction Error (MSPE) computed in matrix form #####
 
-mspe_lm <- function(response, covariates, ) {
+mspe_lm <- function(response, covariates) {
   # n: number of observations in the data (number of rows)
-  n = length(response)
+  n = as.matrix(1:length(response))
   
   # lm_func(response, covariates, alpha = 0.05)$residuals <- y_hat
-  (1/n) * colSums( (lm_func(response, covariates, alpha = 0.05)$residuals )**2)
+  y_hat = lm_func(response, covariates, alpha = 0.05)$residuals
+  mspe <- (1/n) * y_hat**2
+  return(mspe_error = mspe)
 }
 
 ##### F-test ######
 
-ftest_lm <- function( ) {
+ftest_lm <- function(response, covariates) {
   
+  response <- as.vector(response)
+  covariates <- as.matrix(covariates)
   
+  n <- length(response)
+  p <- dim(covariates)[2]
+  df <- n - p
   
+  y_hat = lm_func(response, covariates, alpha = 0.05)$residuals
   
+  SSM = (y_hat - mean(response))**2
+  SSE = (response - y_hat)**2
   
+  DFM = p - 1 # df1 , numerator
+  DFE = n-p # df2, denominator
   
+  MSM = SSM / DFM
+  MSE = SSE / DFE
   
-  
-  
+  f_star = MSM/MSE
+  p_value = pf(f_star, df1 = DFM, df2 = DFE)
 }
 
 
