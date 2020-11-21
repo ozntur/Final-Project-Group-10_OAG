@@ -3,10 +3,10 @@
 # y response
 # estimate beta
 
-exvals <- data.frame(y = c(runif(5000, 40,50)), 
-                     x1 = c(runif(5000, min = 0, max = 20)),
-                     x2 = (runif(20, 0,40)), 
-                     x3 = runif(20,0,50))
+exvals <- data.frame(y = c(runif(6, 40,50)), 
+                     x1 = c(runif(6, min = 0, max = 20)),
+                     x2 = (runif(6, 0,40)), 
+                     x3 = runif(6,0,50))
 
 response = exvals$y
 # covariates = exvals$x1
@@ -85,25 +85,22 @@ lm_func = function(response, covariates, alpha = 0.05, approach = "asymptotic",
   ########## Mean Square Prediction Error (MSPE) computed in matrix form ######
   
   # n: number of observations in the data (number of rows)
-  n_mspe = as.matrix(1:length(response))
+  n_mspe = length(response)
   
-  # lm_func(response, covariates, alpha = 0.05)$residuals <- y_hat
-  #y_hat = resid
-  mspe <- (1/n_mspe) * resid**2
+  mspe <- (1/n_mspe) * colSums( resid**2 )
 
   ##### F-test ######
   n_f <- length(response)
   p_f <- dim(covariates)[2]
-  df_f <- n - p
-
-  SSM = (resid - mean(response))**2
-  SSE = (response - resid)**2
   
-  DFM = p - 1 # df1 , numerator
-  DFE = n-p # df2, denominator
+  SSM = colSums( (fitted_vals - mean(response))**2 )
+  SSE = colSums( (response - fitted_vals)**2 )
   
   MSM = SSM / DFM
   MSE = SSE / DFE
+  
+  DFM = p_f - 1 # df1, numerator
+  DFE = n_f - p_f # df2, denominator
   
   f_star = MSM/MSE
   p_value = pf(f_star, df1 = DFM, df2 = DFE)
@@ -112,11 +109,11 @@ lm_func = function(response, covariates, alpha = 0.05, approach = "asymptotic",
   return(list(beta = beta.hat, sigma2 = sigma2.hat, 
               variance_beta = var.beta, ci = ci.beta, 
               residuals = resid, fitted_vals = fitted_vals, 
-              mspe_error = mspe, p-value = p_value))
+              mspe_error = mspe, p_value = p_value))
   
 }
 
-lm_func(response = exvals$y, covariates = exvals[2:4], only_plot = TRUE, pl_type = "qq")
+a<- lm_func(response = exvals$y, covariates = exvals[2:4], only_plot = FALSE, pl_type = "res_fit")
 
 
 
@@ -136,45 +133,6 @@ base_results = c(fit_lm$coefficients,
 results = cbind(manual_results, base_results)
 row.names(results) = c("Beta", "Sigma")
 results
-
-
-##### Mean Square Prediction Error (MSPE) computed in matrix form #####
-
-mspe_lm <- function(response, covariates) {
-  # n: number of observations in the data (number of rows)
-  n = as.matrix(1:length(response))
-  
-  # lm_func(response, covariates, alpha = 0.05)$residuals <- y_hat
-  y_hat = lm_func(response, covariates, alpha = 0.05)$residuals
-  mspe <- (1/n) * y_hat**2
-  return(mspe_error = mspe)
-}
-
-##### F-test ######
-
-ftest_lm <- function(response, covariates) {
-  
-  response <- as.vector(response)
-  covariates <- as.matrix(covariates)
-  
-  n <- length(response)
-  p <- dim(covariates)[2]
-  df <- n - p
-  
-  y_hat = lm_func(response, covariates, alpha = 0.05)$residuals
-  
-  SSM = (y_hat - mean(response))**2
-  SSE = (response - y_hat)**2
-  
-  DFM = p - 1 # df1 , numerator
-  DFE = n-p # df2, denominator
-  
-  MSM = SSM / DFM
-  MSE = SSE / DFE
-  
-  f_star = MSM/MSE
-  p_value = pf(f_star, df1 = DFM, df2 = DFE)
-}
 
 
 
