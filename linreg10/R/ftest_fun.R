@@ -4,10 +4,7 @@ library(roxygen2)
 n<- 100
 y <-  as.vector(1:n)
 ybar<- (sum(y)/n)
-yhat<- matrix()
-for (i in 1:n){
-  mean(y)
-}
+yhat<- 
 SSM<- matrix(NA,length(n),n)
 for (i in 1:n){
   sum((yhat - ybar)^2))
