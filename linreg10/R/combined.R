@@ -67,7 +67,6 @@ lm_func = function(response, covariates, alpha = 0.05, approach = "asymptotic", 
     }
 
     SE <- apply(Betas2,1,sd)
-    print("still working on it")
   } else {
     print("apprach error")
   }
@@ -76,6 +75,9 @@ lm_func = function(response, covariates, alpha = 0.05, approach = "asymptotic", 
   quant <- 1 - (alpha/2)
   Lower_CI_Beta <- beta.hat - (qnorm(p=quant)*SE)
   Upper_CI_Beta <- beta.hat + (qnorm(p=quant)*SE)
+
+  ci <- cbind(Lower_CI_Beta, Upper_CI_Beta)
+  colnames(ci) <- c("lower_CI", "upper_CI")
 
   ###### PLOT IF NECESSARY
 
@@ -108,7 +110,7 @@ lm_func = function(response, covariates, alpha = 0.05, approach = "asymptotic", 
   # n: number of observations in the data (number of rows)
   n_mspe = length(response)
 
-  mspe <- (1/n_mspe) * colSums( Residuals**2 )
+  mspe <- (1/n_mspe) * sum(Residuals**2)
 
   ##### F-test ######
   n_f <- length(response)
@@ -127,7 +129,8 @@ lm_func = function(response, covariates, alpha = 0.05, approach = "asymptotic", 
   p_value = 1 - pf(f_star, df1 = DFM, df2 = DFE)
 
   # Return all estimated values
-  return(list(beta = beta.hat, sigma2 = sigma2.hat, ci = as.matrix(c(Lower_CI_Beta, Upper_CI_Beta), ncol = length(beta.hat)),
+  return(list(beta = beta.hat, sigma2 = sigma2.hat,
+              confidence_interval = ci,
               residuals = Residuals, fitted_vals = fitted_vals,
               mspe_error = mspe, p_value = p_value))
 
