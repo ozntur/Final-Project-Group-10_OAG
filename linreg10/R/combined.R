@@ -38,9 +38,9 @@ lm_func = function(response, covariates, alpha = 0.05, approach = "asymptotic", 
   beta.hat <- solve(t(covariates)%*%covariates)%*%t(covariates)%*%response
 
   # Residual computation
-  Predicted_Response <- covariates%*%as.matrix(beta.hat)  # Predicted response
-  Residuals <-  response - Predicted_Response
-
+  fitted_vals <- covariates%*%as.matrix(beta.hat)  # Predicted response
+  Residuals <-  response - fitted_vals
+  sigma2.hat <- (1/df)*t(Residuals)%*%Residuals
 
   if(approach == "asymptotic") {
     # Standard Error Computation by asymptotic normal approach
@@ -108,7 +108,7 @@ lm_func = function(response, covariates, alpha = 0.05, approach = "asymptotic", 
   # n: number of observations in the data (number of rows)
   n_mspe = length(response)
 
-  mspe <- (1/n_mspe) * colSums( resid**2 )
+  mspe <- (1/n_mspe) * colSums( Residuals**2 )
 
   ##### F-test ######
   n_f <- length(response)
@@ -124,17 +124,16 @@ lm_func = function(response, covariates, alpha = 0.05, approach = "asymptotic", 
   MSE = SSE / DFE
 
   f_star = MSM/MSE
-  p_value = pf(f_star, df1 = DFM, df2 = DFE)
+  p_value = 1 - pf(f_star, df1 = DFM, df2 = DFE)
 
   # Return all estimated values
-  return(list(beta = beta.hat, sigma2 = sigma2.hat,
-              variance_beta = var.beta, ci = ci.beta,
-              residuals = resid, fitted_vals = fitted_vals,
+  return(list(beta = beta.hat, sigma2 = sigma2.hat, ci = as.matrix(c(Lower_CI_Beta, Upper_CI_Beta), ncol = length(beta.hat)),
+              residuals = Residuals, fitted_vals = fitted_vals,
               mspe_error = mspe, p_value = p_value))
 
 }
 
-a<- lm_func(response = exvals$y, covariates = exvals[2:4], only_plot = FALSE, pl_type = "res_fit")
+a<- lm_func(response = exvals$y, covariates = exvals[2:5], only_plot = FALSE, pl_type = "res_fit")
 
 
 
@@ -142,10 +141,10 @@ a<- lm_func(response = exvals$y, covariates = exvals[2:4], only_plot = FALSE, pl
 ##### To test! ###########
 
 # Linear regression with lm() function
-fit_lm = lm(y ~ x1 + x2 + x3 -1, data = exvals)
+fit_lm = lm(y ~ x1 + x2 + x3 + x4, data = exvals)
 
 # Linear regression with my_lm() function
-fit_my_lm = lm_func(exvals$y, exvals[2:4])
+fit_my_lm = lm_func(exvals$y, exvals[2:5])
 
 # Compare outputs
 manual_results = c(fit_my_lm$beta, fit_my_lm$sigma2)
@@ -155,16 +154,6 @@ results = cbind(manual_results, base_results)
 row.names(results) = c("Beta", "Sigma")
 results
 
-summary(lm(y ~ x1 + x2 + x3 -1, data = exvals))
-
-anova(lm(y ~ x1 + x2 + x3 -1, data = exvals))
-
-
-
-
-
-
-Estimates(response, covariates, alpha)
-
-
+anova((fit_lm))
+fit_my_lm
 
