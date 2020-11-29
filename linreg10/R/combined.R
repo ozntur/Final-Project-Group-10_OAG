@@ -3,63 +3,84 @@
 # y response
 # estimate beta
 
-exvals <- data.frame(y = c(runif(6, 40,50)),
-                     x1 = c(runif(6, min = 0, max = 20)),
-                     x2 = (runif(6, 0,40)),
-                     x3 = runif(6,0,50))
+exvals <- data.frame(y = c(runif(100, 0,600)),
+                     x1 = c(runif(100, min = 0, max = 500)),
+                     x2 = c(runif(100, 0,100)),
+                     x3 = c(runif(100,0,200)),
+                     x4 = c(runif(100,0,300)))
 
 response = exvals$y
-# covariates = exvals$x1
-covariates = exvals[2:4]
+Response = exvals$y
+covariates = exvals[2:5]
+Predictors = exvals[2:5]
 
-##### ESTIMATE BETA  - Confidence Intervals #####
+
 
 # approach can be ; asymptotic or bootstrap
 
-lm_func = function(response, covariates, alpha = 0.05, approach = "asymptotic",
-                   only_plot = "FALSE", pl_type = "hist") {
+lm_func = function(response, covariates, alpha = 0.05, approach = "asymptotic", only_plot = "FALSE", pl_type = "hist") {
 
   # Make sure data formats are appropriate
-  response <- as.vector(response)
-  covariates <- as.matrix(covariates)
+  response <- as.vector(response) # Response values
+  covariates <- as.matrix(covariates) # Predictor values
 
   # Define parameters
   n <- length(response)
-  p <- dim(covariates)[2]
-  df <- n - p
+  p <- dim(covariates)[2] +1
+  df <- n - p # Degree of freedom i.e no of observation minus no of parameter
+
+  intercept <- rep(1, n)
+  covariates <- cbind(intercept, covariates)
 
   ### CONFIDENCE INTERAVAL
 
+  # Estimate beta through Eq. (6.1)
+  beta.hat <- solve(t(covariates)%*%covariates)%*%t(covariates)%*%response
+
+  # Residual computation
+  Predicted_Response <- covariates%*%as.matrix(beta.hat)  # Predicted response
+  Residuals <-  response - Predicted_Response
+
+
   if(approach == "asymptotic") {
-    # Estimate beta through Eq. (6.1)
-    beta.hat <- solve(t(covariates)%*%covariates)%*%t(covariates)%*%response
+    # Standard Error Computation by asymptotic normal approach
+    Sigma.hat <- (1/df)*t(Residuals)%*%Residuals
+    Sigma.hat <- as.vector(Sigma.hat)
+    #sigma.hat
+    Variance_Beta <-  Sigma.hat*diag((solve(t(covariates)%*%covariates))) #Variance of Betas
+    SE <- sqrt( Variance_Beta)
 
-    # Estimate of the residual variance (sigma2) from Eq. (6.3)
-    # fitted values y_hat
-    fitted_vals <- covariates%*%as.matrix(beta.hat)
-
-    # Compute residuals
-    resid <- response - fitted_vals
-    sigma2.hat <- (1/df)*t(resid)%*%resid
-
-    # Estimate of the variance of the estimated beta from Eq. (6.2)
-    var.beta <- as.vector(sigma2.hat)*diag(solve(t(covariates)%*%covariates))
-
-    # Estimate of the confidence interval based on alpha
-    quant <- 1 - alpha/2
-    ci.beta <- data.frame(lowerCI = beta.hat - qnorm(p = quant)*sqrt(var.beta),
-                          upperCI = beta.hat + qnorm(p = quant)*sqrt(var.beta))
   } else if(approach == "bootstrap") {
 
+    B <- 10000
+    Betas2 <- matrix(NA,length(beta.hat),B)
+
+    set.seed(123)
+
+    for (i in 1:B){
+      samp <- sample(nrow(covariates),nrow(covariates),replace = T)
+      Response2 <- response[samp]
+      Predictors2 <- covariates[samp,]
+      row.names(Predictors2) <- 1:length(Response2)
+      Beta <- solve(t(Predictors2)%*%Predictors2, tol = .Machine$double.xmin )%*%t(Predictors2)%*%Response2
+      Betas2[,i] <- Beta
+    }
+
+    SE <- apply(Betas2,1,sd)
     print("still working on it")
   } else {
-      print("apprach error")
-    }
+    print("apprach error")
+  }
+
+  # Intervals
+  quant <- 1 - (alpha/2)
+  Lower_CI_Beta <- beta.hat - (qnorm(p=quant)*SE)
+  Upper_CI_Beta <- beta.hat + (qnorm(p=quant)*SE)
 
   ###### PLOT IF NECESSARY
 
   if(only_plot == TRUE) {
-    pl_dat = data.frame(Residuals = resid, Fitted.Values = fitted_vals)
+    pl_dat = data.frame(Residuals = Residuals, Fitted.Values = fitted_vals)
 
     if(pl_type == "res_fit") {
       # 1. Residuals vs fitted-values
@@ -82,7 +103,7 @@ lm_func = function(response, covariates, alpha = 0.05, approach = "asymptotic",
   }
 
 
-  ########## Mean Square Prediction Error (MSPE) computed in matrix form ######
+  #### Mean Square Prediction Error (MSPE) computed in matrix form ######
 
   # n: number of observations in the data (number of rows)
   n_mspe = length(response)
@@ -133,6 +154,17 @@ base_results = c(fit_lm$coefficients,
 results = cbind(manual_results, base_results)
 row.names(results) = c("Beta", "Sigma")
 results
+
+summary(lm(y ~ x1 + x2 + x3 -1, data = exvals))
+
+anova(lm(y ~ x1 + x2 + x3 -1, data = exvals))
+
+
+
+
+
+
+Estimates(response, covariates, alpha)
 
 
 
