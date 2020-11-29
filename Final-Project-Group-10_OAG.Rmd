@@ -9,6 +9,165 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
+library(ggplot2)
+# x explanatory variable
+# y response
+# estimate beta
+
+exvals <- data.frame(y = c(runif(100, 0,600)),
+                     x1 = c(runif(100, min = 0, max = 500)),
+                     x2 = c(runif(100, 0,100)),
+                     x3 = c(runif(100,0,200)),
+                     x4 = c(runif(100,0,300)))
+
+response = exvals$y
+Response = exvals$y
+covariates = exvals[2:5]
+Predictors = exvals[2:5]
+
+# approach can be ; asymptotic or bootstrap
+
+lm_func = function(response, covariates, alpha = 0.05, approach = "asymptotic", only_plot = "FALSE", pl_type = "hist") {
+
+  # Make sure data formats are appropriate
+  response <- as.vector(response) # Response values
+  covariates <- as.matrix(covariates) # Predictor values
+
+  # Define parameters
+  n <- length(response)
+  p <- dim(covariates)[2] +1
+  df <- n - p # Degree of freedom i.e no of observation minus no of parameter
+
+  intercept <- rep(1, n)
+  covariates <- cbind(intercept, covariates)
+
+  ### CONFIDENCE INTERAVAL
+
+  # Estimate beta through Eq. (6.1)
+  beta.hat <- solve(t(covariates)%*%covariates)%*%t(covariates)%*%response
+
+  # Residual computation
+  fitted_vals <- covariates%*%as.matrix(beta.hat)  # Predicted response
+  Residuals <-  response - fitted_vals
+  sigma2.hat <- (1/df)*t(Residuals)%*%Residuals
+
+  if(approach == "asymptotic") {
+    # Standard Error Computation by asymptotic normal approach
+    Sigma.hat <- (1/df)*t(Residuals)%*%Residuals
+    Sigma.hat <- as.vector(Sigma.hat)
+    #sigma.hat
+    Variance_Beta <-  Sigma.hat*diag((solve(t(covariates)%*%covariates))) #Variance of Betas
+    SE <- sqrt( Variance_Beta)
+
+  } else if(approach == "bootstrap") {
+
+    B <- 10000
+    Betas2 <- matrix(NA,length(beta.hat),B)
+
+    set.seed(123)
+
+    for (i in 1:B){
+      samp <- sample(nrow(covariates),nrow(covariates),replace = T)
+      Response2 <- response[samp]
+      Predictors2 <- covariates[samp,]
+      row.names(Predictors2) <- 1:length(Response2)
+      Beta <- solve(t(Predictors2)%*%Predictors2, tol = .Machine$double.xmin )%*%t(Predictors2)%*%Response2
+      Betas2[,i] <- Beta
+    }
+
+    SE <- apply(Betas2,1,sd)
+  } else {
+    print("apprach error")
+  }
+
+  # Intervals
+  quant <- 1 - (alpha/2)
+  Lower_CI_Beta <- beta.hat - (qnorm(p=quant)*SE)
+  Upper_CI_Beta <- beta.hat + (qnorm(p=quant)*SE)
+
+  ci <- cbind(Lower_CI_Beta, Upper_CI_Beta)
+  colnames(ci) <- c("lower_CI", "upper_CI")
+
+  ###### PLOT IF NECESSARY
+
+  if(only_plot == TRUE) {
+    pl_dat = data.frame(Residuals = Residuals, Fitted.Values = fitted_vals)
+
+    if(pl_type == "res_fit") {
+      # 1. Residuals vs fitted-values
+      p <- ggplot(pl_dat, aes(y = Residuals, x = Fitted.Values )) +
+        geom_point() + geom_smooth(method = lm, se = FALSE)
+
+    } else if(pl_type == "qq") {
+      # 2. qq-plot of residuals
+      p <- ggplot(pl_dat, aes(sample = Residuals)) + stat_qq() + stat_qq_line()
+
+    } else if(pl_type == "hist") {
+      #3. Histogram (or density) of residuals
+      p <- ggplot(pl_dat, aes(x = Residuals)) + geom_histogram(color="black", fill="white")
+
+    } else {
+      print("error")
+    }
+    print(p)
+    return()
+  }
+
+
+  #### Mean Square Prediction Error (MSPE) computed in matrix form ######
+  # n: number of observations in the data (number of rows)
+  n_mspe = length(response)
+  mspe <- (1/n_mspe) * sum(Residuals**2)
+
+  ##### F-test ######
+  n_f <- length(response)
+  p_f <- dim(covariates)[2]
+
+  SSM = colSums( (fitted_vals - mean(response))**2 )
+  SSE = colSums( (response - fitted_vals)**2 )
+
+  DFM = p_f - 1 # df1, numerator
+  DFE = n_f - p_f # df2, denominator
+
+  MSM = SSM / DFM
+  MSE = SSE / DFE
+
+  f_star = MSM/MSE
+  p_value = 1 - pf(f_star, df1 = DFM, df2 = DFE)
+
+  # Return all estimated values
+  return(list(beta = beta.hat, sigma2 = sigma2.hat,
+              confidence_interval = ci,
+              residuals = Residuals, fitted_vals = fitted_vals,
+              mspe_error = mspe, p_value = p_value))
+
+}
+
+a<- lm_func(response = exvals$y, covariates = exvals[2:5], only_plot = FALSE, pl_type = "res_fit")
+
+
+
+
+##### To test! ###########
+
+# Linear regression with lm() function
+fit_lm = lm(y ~ x1 + x2 + x3 + x4, data = exvals)
+
+# Linear regression with my_lm() function
+fit_my_lm = lm_func(exvals$y, exvals[2:5])
+
+# Compare outputs
+manual_results = c(fit_my_lm$beta, fit_my_lm$sigma2)
+base_results = c(fit_lm$coefficients,
+                 (1/fit_lm$df.residual)*t(fit_lm$residuals)%*%fit_lm$residuals)
+results = cbind(manual_results, base_results)
+row.names(results) = c("Beta", "Sigma")
+results
+
+anova((fit_lm))
+fit_my_lm
+
+
 
 ```
 
