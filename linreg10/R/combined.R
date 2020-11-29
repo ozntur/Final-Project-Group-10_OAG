@@ -1,4 +1,4 @@
-
+library(ggplot2)
 # x explanatory variable
 # y response
 # estimate beta
@@ -13,8 +13,6 @@ response = exvals$y
 Response = exvals$y
 covariates = exvals[2:5]
 Predictors = exvals[2:5]
-
-
 
 # approach can be ; asymptotic or bootstrap
 
@@ -106,10 +104,8 @@ lm_func = function(response, covariates, alpha = 0.05, approach = "asymptotic", 
 
 
   #### Mean Square Prediction Error (MSPE) computed in matrix form ######
-
   # n: number of observations in the data (number of rows)
   n_mspe = length(response)
-
   mspe <- (1/n_mspe) * sum(Residuals**2)
 
   ##### F-test ######
