@@ -1,13 +1,13 @@
 #' @title F-Test
 #' @description Estimate the coefficient vector
 #' @param Response A \code{data-frame} containing the response value in the dataset.
-#' @param Predictors A \code{data-frame} containinf the different type of predictorsin the dataset.
+#' @param Predictors A \code{data-frame} containinf the different type of predictors in the dataset.
 #' @return A \code{data frame} containing the following attributes:
 #' \describe{
 #'      \item{p_value}{Estimated p value}
 #'      }
 #' @author Ayomide Afolabi, Ozan Turkes, Geeta Kharel
-#' @importFrom print
+#' @importFrom print pf
 #' @export
 #' @examples
 #' coeff(Response, Predictors)

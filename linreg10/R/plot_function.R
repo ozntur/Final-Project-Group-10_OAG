@@ -7,7 +7,7 @@
 #' \describe{
 #'      }
 #' @author Ozan Turkes, Ayomide Afolabi, Geeta Kharel
-#' @importFrom cowplot
+#' @importFrom cowplot ggplot2
 #' @export
 #' @examples
 #' ci(Response, Predictors, pl_type = "hist")
@@ -30,6 +30,7 @@ plots <- function(Response,Predictors,pl_type){
   Residuals <-  Response - Fitted.values
   pl_dat = data.frame(Residuals = Residuals, Fitted.values = Fitted.values)
 
+  library(ggplot2)
   if(pl_type == "res_fit") {
     # 1. Residuals vs fitted-values
     print(ggplot(pl_dat, aes(y = Residuals, x = Fitted.values )) +
