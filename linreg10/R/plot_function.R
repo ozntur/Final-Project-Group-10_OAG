@@ -1,3 +1,16 @@
+#' @title Plots
+#' @description Residuals vs fitted-values, qq-plot of residuals, Histogram of residuals | Plots
+#' @param Response A \code{data-frame} contains the response value.
+#' @param Predictors A \code{data-frame} contains the predictor values.
+#' @param pl_type A \code{char} desired plot type.
+#' @return A \code{data frame} containing the following attributes:
+#' \describe{
+#'      }
+#' @author Ozan Turkes, Ayomide Afolabi, Geeta Kharel
+#' @importFrom cowplot
+#' @export
+#' @examples
+#' ci(Response, Predictors, pl_type = "hist")
 plots <- function(Response,Predictors,pl_type){
   library(cowplot)
   n <-  length(Response)
@@ -16,7 +29,6 @@ plots <- function(Response,Predictors,pl_type){
   Fitted.values <- Predictors1%*%as.matrix(Betas1)  # Predicted response
   Residuals <-  Response - Fitted.values
   pl_dat = data.frame(Residuals = Residuals, Fitted.values = Fitted.values)
-  library(ggplot2)
 
   if(pl_type == "res_fit") {
     # 1. Residuals vs fitted-values
