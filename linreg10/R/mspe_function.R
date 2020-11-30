@@ -1,3 +1,16 @@
+#' @title Computation of Mean Square Prediction Error (MSPE)
+#' @description This function computes the Mean Square Prediction Error (MSPE) in matrix form.
+#' @param Response A \code{data-frame} contains the response value.
+#' @param Predictors A \code{data-frame} contains the predictor values.
+#' @return A \code{data frame} containing the following attributes:
+#' \describe{
+#'      \item{mse}{Mean Square Prediction Error (MSPE)}
+#'      }
+#' @author Ozan Turkes, Ayomide Afolabi, Geeta Kharel
+#' @export
+#' @examples
+#' coeff(Response, Predictors)
+
 mspe <- function(Response,Predictors){
   n <-  length(Response)
   p <-  (dim(Predictors)[2]+1)
