@@ -1,13 +1,12 @@
 #' @title Linear Regression Coefficients Estimate
 #' @description Estimate the coefficient vector
-#' @param Response A \code{data frame} contains the response in the data
-#' region of interest, i.e. [a, b].
-#' @param Predictors A \code{data frame} contains the different type of predictors
+#' @param Response A \code{data-frame} containing the response value in the dataset.
+#' @param Predictors A \code{data-frame} containinf the different type of predictorsin the dataset.
 #' @return A \code{data frame} containing the following attributes:
 #' \describe{
 #'      \item{coefficient}{Estimated value of the coefficients}
 #'      }
-#' @author c(person("Ayomide","Afolabi"),person("Ozan","Turkes"),person("Geeta","Kharel"))
+#' @author Ayomide Afolabi, Ozan Turkes, Geeta Kharel
 #' @importFrom print
 #' @export
 #' @examples
@@ -24,7 +23,7 @@ coeff <- function(Response, Predictors){
   intercept <- rep(1, n)
   Predictors1 <- cbind(intercept,Predictors)
   Betas1 <- solve(t(Predictors1)%*%Predictors1)%*%t(Predictors1)%*%Response1
-  coefficient <- data.frame("Coefficients.Estimate" = Betas1
+  coefficient <- data.frame("Coefficients.Estimate" = Betas1)
   print(coefficient)
 }
 
