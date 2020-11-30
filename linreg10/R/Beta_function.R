@@ -1,7 +1,7 @@
 #' @title Linear Regression Coefficients Estimate
 #' @description Estimate the coefficient vector
 #' @param Response A \code{data-frame} containing the response value in the dataset.
-#' @param Predictors A \code{data-frame} containinf the different type of predictorsin the dataset.
+#' @param Predictors A \code{data-frame} containinf the different type of predictors in the dataset.
 #' @return A \code{data frame} containing the following attributes:
 #' \describe{
 #'      \item{coefficient}{Estimated value of the coefficients}

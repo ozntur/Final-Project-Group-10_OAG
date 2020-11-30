@@ -1,7 +1,7 @@
 #' @title Confidence Interval
 #' @description Estimate the confidence Interval using either bootstrap or asymptotic
 #' @param Response A \code{data-frame} containing the response value in the dataset.
-#' @param Predictors A \code{data-frame} containing the different type of predictorsin the dataset.
+#' @param Predictors A \code{data-frame} containing the different type of predictors in the dataset.
 #' @param alpha A \code{numeric} containing the level of significance
 #' @param method A \code{character} containing the method to be adopted for the computation.
 #' @return A \code{data frame} containing the following attributes:

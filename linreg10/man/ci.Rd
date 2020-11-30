@@ -9,7 +9,7 @@ ci(Response, Predictors, alpha, method)
 \arguments{
 \item{Response}{A \code{data-frame} containing the response value in the dataset.}
 
-\item{Predictors}{A \code{data-frame} containing the different type of predictorsin the dataset.}
+\item{Predictors}{A \code{data-frame} containing the different type of predictors in the dataset.}
 
 \item{alpha}{A \code{numeric} containing the level of significance}
 
