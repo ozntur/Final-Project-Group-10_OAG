@@ -20,9 +20,6 @@ A \code{data frame} containing the following attributes:
 \description{
 Calculates the p-value.
 }
-\examples{
-coeff(Response, Predictors)
-}
 \author{
 Ayomide Afolabi, Ozan Turkes, Geeta Kharel
 }
