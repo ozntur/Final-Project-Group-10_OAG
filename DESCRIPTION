@@ -11,7 +11,8 @@ Maintainer: The package maintainer <ozt0012@auburn.edu>
 Imports:
     cowplot,
     ggplot2
-Description: An R package is developed by implementing linear regression. 
+Description: An R package is developed by implementing linear regression
+URL: https://github.com/AU-R-Programming/Final-Project-Group-10_OAG, https://au-r-programming.github.io/Final-Project-Group-10_OAG/
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
