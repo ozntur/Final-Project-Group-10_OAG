@@ -9,7 +9,7 @@
 #' @author Ayomide Afolabi, Ozan Turkes, Geeta Kharel
 #' @export
 #' @examples
-#' coeff(Response, Predictors)
+
 pval <- function(Response, Predictors){
   n <-  length(Response)
   p <-  (dim(Predictors)[2]+1)
