@@ -7,13 +7,12 @@ output: github_document
 Package name: linreg10   
 Name of the GitHub repository: Final-Project-Group-10_OAG
 
-Group10 Final Project | STAT-6210 R Programming for Data Science | A Linear Regression Package
-
 Authors :
 
 * Ozan Turkes
 * Ayomide Afolabi 
 * Geeta Kharel
-  
+
 This is a result of the Final Project of *STAT-6210 R Programming for Data Science* course. 
-This package contains the basic functions to perform linear regression. 
+
+Install dependencies
