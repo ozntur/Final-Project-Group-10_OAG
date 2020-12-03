@@ -13,8 +13,8 @@ Data Science* course. This package contains the basic functions to
 perform linear regression. `linreg10` package can calculate the
 confidence intervals, estimate linear regression coefficients, compute
 mean square prediction error, and calculate p-value. Additionally, the
-package can plot 1. residuals vs fitted-values 2. qq-plot of residuals,
-3. histogram of residuals and 4. density of residuals. Please go to the
+package can plot 1-residuals vs fitted-values 2-qq-plot of residuals,
+3-histogram of residuals and 4-density of residuals. Please go to the
 [Reference](https://au-r-programming.github.io/Final-Project-Group-10_OAG/reference/index.html)
 link on top of this webpage for the explanations of the functions.
 
