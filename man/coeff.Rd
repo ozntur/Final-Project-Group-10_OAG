@@ -9,7 +9,7 @@ coeff(Response, Predictors)
 \arguments{
 \item{Response}{A \code{data-frame} containing the response value in the dataset.}
 
-\item{Predictors}{A \code{data-frame} containinf the different type of predictors in the dataset.}
+\item{Predictors}{A \code{data-frame} containing the different type of predictors in the dataset.}
 }
 \value{
 A \code{data frame} containing the following attributes:
