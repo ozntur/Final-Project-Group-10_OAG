@@ -30,10 +30,10 @@ link on top of this webpage for the explanations of the functions.
 
 In addition to `linreg10` we will load the following packages:
 
--   ggplot2 was used to plot and customize the graphs.
--   cowplot which is a simple add-on to ggplot, provides various
+-   `ggplot2` was used to plot and customize the graphs.
+-   `cowplot` which is a simple add-on to ggplot, provides various
     features that help with creating publication-quality figures.
--   devtools to install the package from github.
+-   `devtools` to install the package from github.
 
 <!-- -->
 
