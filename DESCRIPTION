@@ -1,6 +1,6 @@
 Package: linreg10
 Type: Package
-Title: Linear Regression (Group 10 - OAG)
+Title: A Linear Regression Package by Group 10 - OAG
 Version: 0.1.0
 Authors@R: c(
     person("Ozan", "Turkes", email = "ozt0012@auburn.edu", role = c("aut","cre")),
