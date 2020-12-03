@@ -7,7 +7,6 @@
 #'      \item{coefficient}{Estimated value of the coefficients}
 #'      }
 #' @author Ayomide Afolabi, Ozan Turkes, Geeta Kharel
-#' @importFrom print
 #' @export
 #' @examples
 #' coeff(Response, Predictors)
