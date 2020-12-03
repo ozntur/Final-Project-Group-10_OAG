@@ -1,0 +1,18 @@
+Package: linreg10
+Type: Package
+Title: Linear Regression (Group 10 - OAG)
+Version: 0.1.0
+Authors@R: c(
+    person("Ozan", "Turkes", email = "ozt0012@auburn.edu", role = c("aut","cre")),
+    person("Geeta", "Kharel", role = "aut"),
+    person("Ayomide", "Afolabi", role = "aut")
+    )
+Maintainer: The package maintainer <ozt0012@auburn.edu>
+Imports:
+    cowplot,
+    ggplot2
+Description: An R package is developed by implementing linear regression. 
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
