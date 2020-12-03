@@ -27,40 +27,56 @@ ui <- fluidPage(
                         selected = names(mydata[2]),
                         multiple = TRUE),
 
-            selectInput(inputId = "pltype", "Plot Type",
-                        choices = c("res_fit", "qq", "hist", "all"), selected = "hist",
-                        multiple = FALSE),
+            radioButtons(inputId = "pltype", "Plot Type",
+                        choices = c("res_fit", "qq", "hist", "all"), selected = "hist"),
 
         ),
 
         # Main panel for displaying outputs ----
         mainPanel(
 
-            # Output: Histogram ----
-            plotOutput(outputId = "distPlot")
+            tabsetPanel(type = "tabs",
+                        tabPanel("Plot", plotOutput("distPlot")),
+                        tabPanel("Summary of Response", dataTableOutput("respvar")),
+                        tabPanel("Summary of Predictor", dataTableOutput("predvar")),
+                        tabPanel("Confidence Intervals", verbatimTextOutput("ci")),
+                        tabPanel("Coefficients", renderPrint("coeff")),
+                        tabPanel("MSPE", dataTableOutput("mspe")),
+                        tabPanel("p-value", dataTableOutput("pval")))
+
 
         )
     )
 )
 
+
+
 # Define server logic required to draw a histogram ----
 server <- function(input, output) {
 
-    # Histogram of the Old Faithful Geyser Data ----
-    # with requested number of bins
-    # This expression that generates a histogram is wrapped in a call
-    # to renderPlot to indicate that:
-    #
-    # 1. It is "reactive" and therefore should be automatically
-    #    re-executed when inputs (input$bins) change
-    # 2. Its output type is a plot
+    # plotting
     output$distPlot <- renderPlot({
-
         plots(as.matrix(mydata[input$myresponse]),
               as.matrix(mydata[input$mypredictors]),
               pl_type = input$pltype)
-
     })
+
+    # data info summaries
+    output$respvar <- renderDataTable(summary(mydata[input$myresponse]))
+    output$predvar <- renderDataTable(summary(mydata[input$mypredictors]))
+
+    # confidence interval
+    output$ci <- renderDataTable(ci(as.matrix(mydata[input$myresponse]), as.matrix(mydata[input$mypredictors]) ))
+
+    # coeff
+    output$coeff <- renderTable(coeff(as.matrix(mydata[input$myresponse]), as.matrix(mydata[input$mypredictors]) ))
+
+    # mspe
+    output$mspe <- renderTable(mspe(as.matrix(mydata[input$myresponse]), as.matrix(mydata[input$mypredictors]) ))
+
+    # pval
+    output$pval <- renderDataTable(pval(as.matrix(mydata[input$myresponse]), as.matrix(mydata[input$mypredictors]) ))
+
 
 }
 
