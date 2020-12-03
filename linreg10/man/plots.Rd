@@ -4,7 +4,7 @@
 \alias{plots}
 \title{Plots}
 \usage{
-plots(Response, Predictors, pl_type)
+plots(Response, Predictors, pl_type = "hist")
 }
 \arguments{
 \item{Response}{A \code{data-frame} contains the response value.}
@@ -14,7 +14,7 @@ plots(Response, Predictors, pl_type)
 \item{pl_type}{A \code{char} desired plot type.}
 }
 \value{
-A \code{data frame} containing the following attributes:
+A \code{data frame} c("res_fit", "qq", "hist, all"), res_fit -> Residuals vs fitted-values, qq -> qq-plot of residuals, hist -> Histogram of residuals, all -> all of the plots together
 \describe{
      }
 }

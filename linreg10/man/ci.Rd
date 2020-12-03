@@ -4,7 +4,7 @@
 \alias{ci}
 \title{Confidence Interval}
 \usage{
-ci(Response, Predictors, alpha, method)
+ci(Response, Predictors, alpha = 0.05, method = "Bootstrap")
 }
 \arguments{
 \item{Response}{A \code{data-frame} containing the response value in the dataset.}
@@ -13,7 +13,7 @@ ci(Response, Predictors, alpha, method)
 
 \item{alpha}{A \code{numeric} containing the level of significance}
 
-\item{method}{A \code{character} containing the method to be adopted for the computation.}
+\item{method}{A \code{character} "Bootstrap" or "Asymptotic" . Default "Bootstrap". containing the method to be adopted for the computation.}
 }
 \value{
 A \code{data frame} containing the following attributes:

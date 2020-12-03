@@ -2,7 +2,7 @@
 % Please edit documentation in R/pval_function.R
 \name{pval}
 \alias{pval}
-\title{F-Test}
+\title{Calculation of p-value}
 \usage{
 pval(Response, Predictors)
 }
@@ -18,7 +18,7 @@ A \code{data frame} containing the following attributes:
      }
 }
 \description{
-Estimate the coefficient vector
+Calculates the p-value.
 }
 \examples{
 coeff(Response, Predictors)
