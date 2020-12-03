@@ -1,7 +1,7 @@
 #' @title Calculation of p-value
 #' @description Calculates the p-value.
 #' @param Response A \code{data-frame} containing the response value in the dataset.
-#' @param Predictors A \code{data-frame} containinf the different type of predictors in the dataset.
+#' @param Predictors A \code{data-frame} containing the different type of predictors in the dataset.
 #' @return A \code{data frame} containing the following attributes:
 #' \describe{
 #'      \item{p_value}{Estimated p value}
@@ -9,6 +9,7 @@
 #' @author Ayomide Afolabi, Ozan Turkes, Geeta Kharel
 #' @export
 #' @examples
+#' pval(Response, Predictors)
 
 pval <- function(Response, Predictors){
   n <-  length(Response)
