@@ -7,12 +7,11 @@ Authors@R: c(
     person("Geeta", "Kharel", role = "aut"),
     person("Ayomide", "Afolabi", role = "aut")
     )
-Maintainer: The package maintainer <yourself@somewhere.net>
+Maintainer: The package maintainer <ozt0012@auburn.edu>
 Imports:
     cowplot,
     ggplot2
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Description: An R package is developed by implementing linear regression. 
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
