@@ -6,3 +6,4 @@ output: github_document
 Ozan Turkes | Geeta Kharel | Ayomide Afolabi 
   
 This package contains the basic functions to perform linear regression. 
+
