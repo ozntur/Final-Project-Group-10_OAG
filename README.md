@@ -1,18 +1,12 @@
 
 # Welcome to Group 10 Final Project Webpage!
 
-Package name: `linreg10`  
-Name of the GitHub repository: Final-Project-Group-10\_OAG  
-URL to GitHub:
+**Package name:** `linreg10`  
+**Name of the GitHub repository:** `Final-Project-Group-10_OAG` **URL to
+GitHub:**
 <a href="https://github.com/AU-R-Programming/Final-Project-Group-10_OAG" class="uri">https://github.com/AU-R-Programming/Final-Project-Group-10_OAG</a>  
-URL to package website:
+**URL to package website:**
 <a href="https://au-r-programming.github.io/Final-Project-Group-10_OAG/" class="uri">https://au-r-programming.github.io/Final-Project-Group-10_OAG/</a>
-
-### Authors:
-
--   Ozan Turkes
--   Ayomide Afolabi
--   Geeta Kharel
 
 This is a result of the Final Project of *STAT-6210 R Programming for
 Data Science* course. This package contains the basic functions to
@@ -40,3 +34,9 @@ Next, we can install `linreg10`:
     devtools::install_github("AU-R-Programming/Final-Project-Group-10_OAG")
 
 ## Examples
+
+### Authors:
+
+-   Ozan Turkes
+-   Ayomide Afolabi
+-   Geeta Kharel
