@@ -1,0 +1,22 @@
+Package: linreg10
+Type: Package
+Title: Linear Regression (Group 10 - OAG)
+Version: 0.1.0
+Authors@R: c(
+    person("Ozan", "Turkes", email = "ozt0012@auburn.edu", role = c("aut","cre")),
+    person("Geeta", "Kharel", role = "aut"),
+    person("Ayomide", "Afolabi", role = "aut")
+    )
+Maintainer: The package maintainer <yourself@somewhere.net>
+Imports: cowplot, ggplot2
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
+NeedsCompilation: no
+Packaged: 2020-12-03 08:35:13 UTC; usermbp8
+Author: Ozan Turkes [aut, cre],
+  Geeta Kharel [aut],
+  Ayomide Afolabi [aut]
