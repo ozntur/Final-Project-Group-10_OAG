@@ -1,5 +1,6 @@
 ---
 title: "linreg10 Package-vignette"
+author: "Ayomide Afolabi","Ozan Turkes","Geeta Kharel"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{linreg10-vignette}
