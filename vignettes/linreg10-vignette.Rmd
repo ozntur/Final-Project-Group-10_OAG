@@ -1,0 +1,23 @@
+---
+title: "linreg10 Package-vignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{linreg10-vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+The R package called linreg10 package on au-r-programming/Final-Project-Group-10_OAG/ repository contains the basic functions to perform linear regression. This package can calculate the confidence intervals, estimate linear regression coefficients, compute mean square prediction error, and calculate p-value. This details about using this package is stated below.
+
+\newline
+The package is first installed and loaded by calling the library(linreg) as shown in the code below. Also, devtools must already be installed in your R software, before you start the installation
+```{r install_package_and_load, echo=TRUE}
+devtools::install_github("AU-R-Programming/Final-Project-Group-10_OAG")
+library(linreg10)
+```
