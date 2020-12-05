@@ -45,8 +45,6 @@ Next, we can install `linreg10`:
     # Install linreg10
     devtools::install_github("AU-R-Programming/Final-Project-Group-10_OAG")
 
-## Examples
-
 ### Authors:
 
 -   Ozan Turkes
