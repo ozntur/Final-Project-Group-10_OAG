@@ -1,6 +1,6 @@
 ---
 title: "linreg10 Package-vignette"
-author: "Ayomide Afolabi","Ozan Turkes","Geeta Kharel"
+author: "Ayomide Afolabi,Ozan Turkes, Geeta kharel"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{linreg10-vignette}
@@ -14,59 +14,89 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
-The R package called linreg10 package on au-r-programming/Final-Project-Group-10_OAG/ repository contains the basic functions to perform linear regression. This package can calculate the confidence intervals, estimate linear regression coefficients, compute mean square prediction error, and calculate p-value. This details about using this package is stated below.
+The R package called "linreg10" package on au-r-programming/Final-Project-Group-10_OAG/ repository contains the basic functions to perform linear regression. This package can calculate the confidence intervals, estimate linear regression coefficients, compute mean square prediction error, and calculate p-value. The details about the procedures for using this package is stated below.
 
 \newline
-The package is first installed and loaded by calling the library(linreg) as shown in the code below. Also, devtools must already be installed in your R software, before you start the installation.
+The package is first installed and loaded by calling the library(linreg10) as shown in the code below. Also, devtools must already be installed in your R software, before you start the installation.
+
 **Package Installation**
 ```{r install_package_and_load, echo=TRUE}
 devtools::install_github("AU-R-Programming/Final-Project-Group-10_OAG")
 library(linreg10)
 ```
+
 **Dataset Processing**
-The dataset to be use for linear regression analysis is read into R. This dataset is converted into a dataframe before it is seperated into predictors and Response. This is done using the following code.
+
+The dataset to be use for linear regression analysis is read into R. This dataset must be converted into a dataframe before predictors are seperated from the Response. This is done using the following codes.
 
 ```{r loading_data_and_formatting, echo=TRUE}
+setwd("~/GitHub/Final-Project-Group-10_OAG")
 Dataset <- read.csv(file="crop.data.csv")
 Dataset <- data.frame(Dataset)
 Response <- Dataset$yield
 Predictors <- Dataset[1:3]
 ```
 
-After the data has been loaded and the appropriate "Response" seperated from the "Predictors",the package has the following function which could be used for different purpose.
+After the data has been loaded and the appropriate "Response" seperated from the "Predictors",the linreg10 package has the following function which could be used for different purpose. This is achieved by calling different functions in the package.
+
 **Coefficient Estimate Function**
+
 First, coeff() function is used to estimate the linear regression coefficients estimate. This is performed as shown in the code below.
 ```{r coefficient_estimate, echo=TRUE}
 Estimate <- coeff(Response = Response,Predictors =Predictors)
-Print(Estimate)
 ```
+
 **Confidence Interval Function**
+
 Second, the ci() function is used to compute the confidence interval of the estimate based on either the bootstrap approach or Asymptotic approach as specified in the method argument in code shown below. Also, alpha could also be adjusted based on what you want.
 
-```{r confidence_interval, echo=TRUE}
+```{r confidence_interval1, echo=TRUE}
 confidence_interval <- ci(Response = Response,Predictors =Predictors, alpha=0.05, method="Bootstrap")
-print(confidence_interval)
 ```
+
+```{r confidence_interval2, echo=TRUE}
+confidence_interval <- ci(Response = Response,Predictors =Predictors, alpha=0.05, method="Asymptotic")
+```
+
 **Plots Function**
-Third, the plots() function is used to produce various plots which can be used for residual analysis.This includes residuals vs fitted-values,qq-plot of residuals, histogram of residual plots. Each type of plot is produced by specifying type of plots in the pl_type argument as specified in the code below.
+
+Third, the plots() function is used to produce various plots for residual analysis in linear regression.This includes residuals vs fitted-values,qq-plot of residuals, histogram of residual plots. Each type of plot is produced by specifying type of plots in the "pl_type" argument as specified in the code below.This argument takes in a character
 
 \newline
 "res_fit" generates  residuals vs fitted-value plot
 "qq" generates qq-plot of residuals
 "hist" histogram of residual plots
 "all" generates all the plots above at sametime
-```{r plots, echo=TRUE}
-plots <- plots(Response = Response,Predictors =Predictors, pl_type="all")
-print(plots)
+```{r plots1, echo=TRUE}
+plots <- plots(Response = Response,Predictors =Predictors, pl_type="res_fit")
 ```
+
+```{r plots2, echo=TRUE}
+plots <- plots(Response = Response,Predictors =Predictors, pl_type="qq")
+```
+
+```{r plots3, echo=TRUE}
+plots <- plots(Response = Response,Predictors =Predictors, pl_type="hist")
+```
+
+```{r plots4, echo=TRUE}
+plots <- plots(Response = Response,Predictors =Predictors, pl_type="all")
+```
+
 **Mean Square Prediction and Pvalue Function**
+
 Lastly,the mean square prediction value and pvalue can simply be computed by using code below by using the mspe() and pval() respectively and providing the following argument as shown in the following code.
 ```{r mean_square_prediction, echo=TRUE}
 Mspe <- mspe(Response=Response, Predictors=Predictors)
-print(Mspe)
 ```
 
 ```{r pvalue, echo=TRUE}
-pvalue <- pval(Response,Predictors)
-print(pvalue)
+pvalue <- pval(Response=Response,Predictors=Predictors)
+```
+
+**R Documentation**
+
+Documentation of the each function can be viewed by running "?function_name". Examples are shown in the code below.
+```{r documentation, echo=TRUE}
+?ci
 ```
