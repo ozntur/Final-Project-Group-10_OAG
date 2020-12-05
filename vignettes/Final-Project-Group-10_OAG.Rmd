@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-The R package called "linreg10" package on au-r-programming/Final-Project-Group-10_OAG/ repository contains the basic functions to perform linear regression. This package can calculate the confidence intervals, estimate linear regression coefficients, compute mean square prediction error, and calculate p-value. The details about the procedures for using this package is stated below.
+The R package called "linreg10" package on AU-R-Programming/Final-Project-Group-10_OAG/ repository contains the basic functions to perform linear regression. This package can calculate the confidence intervals, estimate linear regression coefficients, compute mean square prediction error, and calculate p-value. The details about the procedures for using this package is stated below.
 
 \newline
 The package is first installed and loaded by calling the library(linreg10) as shown in the code below. Also, devtools must already be installed in your R software, before you start the installation.
@@ -65,9 +65,20 @@ Third, the plots() function is used to produce various plots for residual analys
 
 \newline
 "res_fit" generates  residuals vs fitted-value plot
+\newline
+
 "qq" generates qq-plot of residuals
+\newline
+
 "hist" histogram of residual plots
-"all" generates all the plots above at sametime
+\newline
+
+"density" density plots
+\newline
+
+"all" generates all the plots above at same time
+\newline
+
 ```{r plots1, echo=TRUE}
 plots <- plots(Response = Response,Predictors =Predictors, pl_type="res_fit")
 ```
